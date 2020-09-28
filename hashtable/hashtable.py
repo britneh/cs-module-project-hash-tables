@@ -71,6 +71,7 @@ class HashTable:
 
         Implement this, and/or FNV-1.
         """
+        #do i need to understand this completely?
         hash = 5381
         byte_array = key.encode('utf-8')
 
@@ -100,25 +101,25 @@ class HashTable:
         # Create variable for the value at index
         current_node = self.table[index]
 
-        # While the node has a value and we haven't reached the end of our list:
+        # While the node has a value and we aren't at the end
         while current_node is not None:
-            # If the current node's key is key is the key we're looking for:
+            # If the current node's key is the key
             if current_node.key == key:
                 # Assign the value to the node
                 current_node.value = value
                 return
             else:
-                # Or move on to the next node
+                # Or move on to next
                 current_node = current_node.next
 
-        # Create a new node with the HashTableEntry
+        # Create a new instance with HashTableEntry
         new_node = HashTableEntry(key, value)
         # Assign the index at the hash table we're on to be the .next node of the new_node
         new_node.next = self.table[index]
         # Assign the new_node to the index we're on
         self.table[index] = new_node
 
-        # Add 1 to the total number of keys we're storing.
+        # Increment by 1 for total
         self.length += 1
 
 
@@ -155,12 +156,12 @@ class HashTable:
 
         # If node is not empty:
         while current_node is not None:
-            # And the current node's key is the key we're looking for:
+            #current node key is desired
             if current_node.key == key:
-                # Return the value of the key
+                # return key value
                 return current_node.value 
             else:
-                # Or move on to check the next node
+                # Or check next node
                 current_node = current_node.next
 
 
