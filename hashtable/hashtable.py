@@ -96,7 +96,7 @@ class HashTable:
 
         Implement this.
         """
-        index = self.index_hash(key)
+        index = self.hash_index(key)
         # Create variable for the value at index
         current_node = self.table[index]
 
@@ -131,7 +131,7 @@ class HashTable:
         Implement this.
         """
         #find index
-        index = self.index_hash(key)
+        index = self.hash_index(key)
         #set value of node of that index to none
         self.table[index] = None
 
@@ -149,7 +149,7 @@ class HashTable:
         Implement this.
         """
         #find index
-        index = self.index_hash(key)
+        index = self.hash_index(key)
         #find node at index
         current_node = self.table[index]
 
