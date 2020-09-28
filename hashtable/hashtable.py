@@ -20,8 +20,14 @@ class HashTable:
     Implement this.
     """
 
+
     def __init__(self, capacity):
-        # Your code here
+        #The capacity is the number of buckets in the hash table, and 
+        # the initial capacity is simply the capacity at the time 
+        # the hash table is created. -- Doesn't this mean more than min listed?
+        self.capacity = capacity
+        self.length = 0 #amount stored
+        self.table = [None] * self.capacity
 
 
     def get_num_slots(self):
@@ -34,7 +40,7 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
+        return self.capacity #or length of self.table
 
 
     def get_load_factor(self):
@@ -43,7 +49,10 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
+        # The load factor is a measure of how full the hash table is allowed
+        # to get before its capacity is automatically increased
+        #the number of items currently in the table divided by the size of the array
+        return (self.length/self.capacity) 
 
 
     def fnv1(self, key):
@@ -62,7 +71,13 @@ class HashTable:
 
         Implement this, and/or FNV-1.
         """
-        # Your code here
+        hash = 5381
+        byte_array = key.encode('utf-8')
+
+        for byte in byte_array:
+            hash = ((hash * 33) + byte)
+
+        return hash & 0xffffffff
 
 
     def hash_index(self, key):
@@ -81,7 +96,30 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
+        index = self.index_hash(key)
+        # Create variable for the value at index
+        current_node = self.table[index]
+
+        # While the node has a value and we haven't reached the end of our list:
+        while current_node is not None:
+            # If the current node's key is key is the key we're looking for:
+            if current_node.key == key:
+                # Assign the value to the node
+                current_node.value = value
+                return
+            else:
+                # Or move on to the next node
+                current_node = current_node.next
+
+        # Create a new node with the HashTableEntry
+        new_node = HashTableEntry(key, value)
+        # Assign the index at the hash table we're on to be the .next node of the new_node
+        new_node.next = self.table[index]
+        # Assign the new_node to the index we're on
+        self.table[index] = new_node
+
+        # Add 1 to the total number of keys we're storing.
+        self.length += 1
 
 
     def delete(self, key):
@@ -92,7 +130,14 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
+        #find index
+        index = self.index_hash(key)
+        #set value of node of that index to none
+        self.table[index] = None
+
+        #decrement total of slots by one
+        self.length -= 1
+
 
 
     def get(self, key):
@@ -103,7 +148,20 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
+        #find index
+        index = self.index_hash(key)
+        #find node at index
+        current_node = self.table[index]
+
+        # If node is not empty:
+        while current_node is not None:
+            # And the current node's key is the key we're looking for:
+            if current_node.key == key:
+                # Return the value of the key
+                return current_node.value 
+            else:
+                # Or move on to check the next node
+                current_node = current_node.next
 
 
     def resize(self, new_capacity):
