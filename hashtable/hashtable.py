@@ -27,7 +27,7 @@ class HashTable:
         # the hash table is created. -- Doesn't this mean more than min listed?
         self.capacity = capacity
         self.length = 0 #amount stored
-        self.table = [None] * self.capacity
+        self.table = [None] * self.capacity #empty table
 
 
     def get_num_slots(self):
@@ -70,6 +70,10 @@ class HashTable:
         DJB2 hash, 32-bit
 
         Implement this, and/or FNV-1.
+
+        ***A hash function is any function that can be used to map 
+        data of arbitrary size to fixed-size value; values are used 
+        to index a fixed-size table called a hash table.
         """
         #do i need to understand this completely?
         hash = 5381
@@ -172,7 +176,18 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
+        # old list, new list 
+        #reset entry points; indices?
+        old_table = self.table
+        new_table = [None for i in range(new_capacity)]
+        self.table = new_table
+        self.capacity = new_capacity
+
+        for i in range(len(old_table)):
+            current_node = old_table[i]
+            while current_node is not None:
+                self.put(current_node.key, current_node.value)
+                current_node = current_node.next
 
 
 
